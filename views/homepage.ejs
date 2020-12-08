@@ -1,1 +1,27 @@
-<h1>It is the homepage.</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In the home page</title>
+</head>
+
+<body>
+    <h1>It is the homepage.</h1>
+    <h3>For creating Room</h3>
+    <form action="/createRoom" method="POST">
+        <h3>press button to create room</h3>
+        <button type="submit" class="btn">creatRoom</button>
+    </form>
+
+    <h3>For joining Room</h3>
+    <form action="/joinRoom" method="POST">
+        <label for="roomid">RoomId</label>
+        <input type="text" name="roomid" id="roomid" placeholder="Enter roomid..." required />
+        <button type="submit" class="btn">joinRoom</button>
+    </form>
+
+</body>
+
+</html>
