@@ -4,18 +4,18 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidv4 } = require('uuid');
 var bodyParser = require('body-parser');
+const formatMessage = require('./utils/messages');
 const {
   userJoin,
   getCurrentUser,
   userLeave,
   getRoomUsers
 } = require('./utils/users');
+const botName = 'SyncM Bot';
 
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
-
-const rooms = {};
 
 // for parsing application/json
 app.use(bodyParser.json());
@@ -33,7 +33,6 @@ app.get('/:roomid', (req, res) => {
 
 app.post('/createRoom', (req, res) => {
   const room = uuidv4();
-  rooms[room] = { users: {} }
   res.redirect(`/${room}`)
 })
 
@@ -46,25 +45,49 @@ io.on('connection', socket => {
   console.log("connected with io")
   socket.on('new-user', (room, name) => {
     const user = userJoin(socket.id, name, room);
+    console.log(user);
+
+    //joining user to room
     socket.join(room);
 
-    rooms[room].users[socket.id] = name;
-    io.sockets.to(room).emit('user-connected', name)
-    console.log(name + " join room " + room);
-    console.log(rooms);
+    // Welcome current user
+    socket.emit('message', formatMessage(botName, 'Welcome to SyncM!'));
+
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
+
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   })
 
   socket.on('clientEvent', function (data) {
-    console.log(data);
-    console.log("inside play button")
     const user = getCurrentUser(socket.id);
-    console.log(user.username + " payed song")
+    io.sockets
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has played the song`)
+      );
     io.sockets.to(user.room).emit('playonall', { msg: "playing on all client" });
   });
 
   socket.on('clientEventPause', function (data) {
     console.log(data);
     const user = getCurrentUser(socket.id);
+    io.sockets
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has paused the song`)
+      );
     io.sockets.to(user.room).emit('pauseonall', { msg: "pausing on all client" });
   });
 
