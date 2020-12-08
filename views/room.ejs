@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>In the Room!!</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        const roomid = "<%= roomid %>"
+    </script>
+    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="script.js" defer></script>
 </head>
 
 <body>
     <h1>In the room.... ooohoooooo</h1>
+    <h4>Share Room Id : <%=roomid %></h4>
+    <div id="listofuser"></div>
+    <audio src="ringtone.mp3" id="ringtone" controls></audio>
+    <button onclick="handleplaysound()">play sound</button>
+    <button onclick="handlepausesound()">pause sound</button>
 </body>
 
 </html>
