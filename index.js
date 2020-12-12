@@ -68,6 +68,13 @@ io.on('connection', socket => {
     });
   });
 
+  // Listen for chatMessage
+  socket.on('chatMessage', msg => {
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit('message', formatMessage(user.username, msg));
+  });
+
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const user = userLeave(socket.id);
@@ -95,7 +102,7 @@ io.on('connection', socket => {
         'message',
         formatMessage(botName, `${user.username} has played the song`)
       );
-    io.sockets.to(user.room).emit('playonall', { msg: "playing on all client" ,id:data.id});
+    io.sockets.to(user.room).emit('playonall', { msg: "playing on all client", id: data.id });
   });
 
   socket.on('clientEventPause', function (data) {
@@ -107,7 +114,7 @@ io.on('connection', socket => {
         'message',
         formatMessage(botName, `${user.username} has paused the song`)
       );
-    io.sockets.to(user.room).emit('pauseonall', { msg: "pausing on all client" ,id:data.id });
+    io.sockets.to(user.room).emit('pauseonall', { msg: "pausing on all client", id: data.id });
   });
 
 })

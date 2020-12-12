@@ -1,33 +1,36 @@
 console.log('SCRIPT WORKING')
+const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
+var audio_element = document.querySelectorAll("audio");
+console.log(audio_element);
 const socket = io('http://localhost:3000')
 const name = prompt('What is your name?')
 socket.emit('new-user', roomid, name);
 
 function handleplaysound(id){
-  console.log("clicked playsound");
-  console.log(id);
-  socket.emit('clientEvent', {
-    msg:'Sent an event from the client by play button!',
-    id:id
-  });
-
+  for(var i=0;i<audio_element.length;i++){
+    if(audio_element[i].paused!==true){
+      audio_element[i].paused===true;
+      var ret = audio_element[i].id.replace('audio','');
+      handlepausesound(ret);
+    }
+  }
+    socket.emit('clientEvent', {
+      msg:'Sent an event from the client by play button!',
+      id:id
+    });
 };
 
 function handlepausesound(id){
-  console.log("clicked pausesound");
   socket.emit('clientEventPause', {
     msg:'Sent an event from the client by pause button!',
     id:id
   });
-
 };
 
 socket.on('playonall',data =>{
-    console.log("hlo garv, playing song");
-    console.log(data);
     const id= data.id;
     var btn = document.getElementById(id);
     var x = document.getElementById(id+"-audio");
@@ -35,8 +38,6 @@ socket.on('playonall',data =>{
     x.play();
 });
 socket.on('pauseonall',data =>{
-    console.log("hlo garv, your song is going to paused, wait for 2 sec");
-    console.log(data);
     const id= data.id;
     var btn = document.getElementById(id);
     var x = document.getElementById(id+"audio");
@@ -44,7 +45,6 @@ socket.on('pauseonall',data =>{
     x.pause();
 })
 socket.on('message', message => {
-  console.log(message);
   outputMessage(message);
 });
 
@@ -52,6 +52,28 @@ socket.on('message', message => {
 socket.on('roomUsers', ({ room, users }) => {
   outputRoomName(room);
   outputUsers(users);
+});
+
+//chat message submit
+// Message submit
+chatForm.addEventListener('submit', e => {
+  e.preventDefault();
+
+  // Get message text
+  let msg = e.target.elements.msg.value;
+  
+  msg = msg.trim();
+  
+  if (!msg){
+    return false;
+  }
+
+  // Emit message to server
+  socket.emit('chatMessage', msg);
+
+  // Clear input
+  e.target.elements.msg.value = '';
+  e.target.elements.msg.focus();
 });
 
 function outputMessage(message) {
