@@ -1,8 +1,7 @@
 console.log('SCRIPT WORKING')
 
 const chatForm = document.getElementById('chat-form')
-const chatMessages = document.querySelector('.chat-messages')
-const roomName = document.getElementById('room-name')
+const chatMessages = document.querySelector('#chat-messages')
 const userList = document.getElementById('users')
 var audio_element = document.querySelectorAll('audio')
 console.log(audio_element)
@@ -11,6 +10,10 @@ const name = prompt('What is your name?')
 socket.emit('new-user', roomid, name)
 
 function handleplaysound(id) {
+    const play_icon=document.getElementById(id);
+    const pause_icon=document.getElementById(id+"-");
+    play_icon.classList.add('d-none');
+    pause_icon.classList.remove('d-none');
     for (var i = 0; i < audio_element.length; i++) {
         if (audio_element[i].paused !== true) {
             audio_element[i].paused === true
@@ -25,6 +28,10 @@ function handleplaysound(id) {
 }
 
 function handlepausesound(id) {
+    const play_icon=document.getElementById(id.slice(0, -1));
+    const pause_icon=document.getElementById(id);
+    play_icon.classList.remove('d-none');
+    pause_icon.classList.add('d-none');
     socket.emit('clientEventPause', {
         msg: 'Sent an event from the client by pause button!',
         id: id
@@ -33,16 +40,20 @@ function handlepausesound(id) {
 
 socket.on('playonall', data => {
     const id = data.id
-    var btn = document.getElementById(id)
+    const play_icon=document.getElementById(id);
+    const pause_icon=document.getElementById(id+"-");
+    play_icon.classList.add('d-none');
+    pause_icon.classList.remove('d-none');
     var x = document.getElementById(id + '-audio')
-    x.currentTime = 0
     x.play()
 })
 socket.on('pauseonall', data => {
     const id = data.id
-    var btn = document.getElementById(id)
+    const play_icon=document.getElementById(id.slice(0, -1));
+    const pause_icon=document.getElementById(id);
+    play_icon.classList.remove('d-none');
+    pause_icon.classList.add('d-none');
     var x = document.getElementById(id + 'audio')
-    x.currentTime = 0
     x.pause()
 })
 socket.on('message', message => {
@@ -51,7 +62,6 @@ socket.on('message', message => {
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {
-    outputRoomName(room)
     outputUsers(users)
 })
 
@@ -79,22 +89,11 @@ chatForm.addEventListener('submit', e => {
 
 function outputMessage(message) {
     const div = document.createElement('div')
-    div.classList.add('message')
-    const p = document.createElement('p')
-    p.classList.add('meta')
-    p.innerText = message.username
-    p.innerHTML += `<span>${message.time}</span>`
-    div.appendChild(p)
-    const para = document.createElement('p')
-    para.classList.add('text')
-    para.innerText = message.text
-    div.appendChild(para)
-    document.querySelector('.chat-messages').appendChild(div)
-}
-
-// Add room name to DOM
-function outputRoomName(room) {
-    roomName.innerText = room
+    div.classList.add('msg-area');
+    div.innerHTML=`<span class="sender">${message.username}</span>
+    <span class="time">${message.time}</span>
+    <p class="msg">${message.text}</p>`;
+    chatMessages.prepend(div);
 }
 
 // Add users to DOM
