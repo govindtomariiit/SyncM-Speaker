@@ -1,4 +1,274 @@
 * {
-    color: grey;
-    background-color: palegreen;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: futura-medium;
+    src: url(fonts/futura/futura\ medium\ bt.ttf)
+}
+
+@font-face {
+    font-family: futura-bold;
+    src: url(fonts/futura/Futura\ Heavy\ font.ttf)
+}
+
+.navbar-roomPage {
+    height: 6rem;
+    padding: 1rem 3rem;
+    background-color: #fff;
+    /* box shadow */
+    -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.navbar-roomPage .logo {
+    color: #1a1a1a;
+    font-size: 3.4rem;
+    font-family: futura-medium;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.16);
+    display: inline-block;
+}
+
+.navbar-roomPage .btn-exit {
+    background-color: #db3545;
+    font-family: futura-bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    color: #fff;
+    position: absolute;
+    right: 3rem;
+    top: 1.5rem;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.16);
+}
+
+.roomid-box {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    color: #222222;
+}
+
+.roomid-box .roomid {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.16);
+    padding: 4px 45px;
+}
+
+.data-box {}
+
+.music-section {
+    background-color: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.16);
+    border-radius: 50px;
+}
+
+.music-grid-container {
+    margin-top: 1.8rem;
+    margin-bottom: 1.8rem;
+}
+
+.music-grid {
+    margin-top: 1rem;
+}
+
+.music-song {
+    /* background-image: url(img/born-to-shine.jpg); */
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+    width: 260px;
+    height: 250px;
+    border-radius: 5px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.16);
+    padding: 0;
+    position: relative;
+}
+
+.song-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    z-index: 0;
+}
+
+.music-song:nth-child(2) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.song-name {
+    position: absolute;
+    left: 0%;
+    bottom: 0;
+    width: 100%;
+    border-radius: inherit;
+    background-color: rgba(41, 41, 41, .65);
+    z-index: 100;
+    color: #fff;
+    padding: .8rem 1rem;
+    line-height: 1.2;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.play-btn-layover {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(67, 67, 67, .5);
+    border-radius: inherit;
+    z-index: 50;
+    display: none;
+}
+
+.play-btn-icon {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 150;
+    display: none;
+}
+
+.music-song:hover .play-btn-layover {
+    display: block;
+}
+
+.music-song:hover .play-btn-icon {
+    display: block;
+}
+
+.chatbot {
+    height: 62vh;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.16);
+    border-radius: 50px;
+    position: relative;
+    /* padding: 0; */
+}
+
+.headings {
+    border-radius: 50px 50px 0 0;
+    height: 4.2rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid #707070;
+    align-items: center;
+    text-align: center;
+    font-family: futura-medium;
+    font-size: 1.6rem;
+    color: #7b7b7b;
+    margin-bottom: .5rem;
+}
+
+.heading-chat {}
+
+.heading-participants {}
+
+.msg-section {
+    width: 100%;
+    height: calc(100% - 8.4rem);
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-bottom: .5rem;
+}
+
+.msg-area {
+    width: 100%;
+    background-color: #ededed;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+    margin: .5rem 0;
+    padding: .5rem .8rem;
+}
+
+.sender {
+    font-family: futura-medium;
+    color: #7b7b7b;
+    font-size: 1.1rem;
+}
+
+.time {
+    font-family: futura-medium;
+    color: #7b7b7b;
+    text-transform: uppercase;
+    padding-left: .8rem;
+}
+
+.msg {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    line-height: 1.2;
+    margin-top: .3rem;
+}
+
+.people {
+    font-family: futura-medium;
+    color: #7B7B7B;
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    width: 100%;
+    height: calc(100% - 8.4rem);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.write-msg {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 4.2rem;
+    border-radius: 0 0 50px 50px;
+    border-top: 2px solid #d6d6d6;
+    margin-top: 1rem;
+}
+
+.input-box {
+    padding: 0;
+    height: 100%;
+    border-radius: 0 0 0 50px;
+}
+
+.input-text {
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    outline: none;
+    padding-left: .8rem;
+    padding-bottom: 1rem;
+    font-size: 1.5rem;
+    font-family: 'Nunito', sans-serif;
+    color: #222;
+}
+
+.input-text::placeholder {
+    font-family: 'Courier Prime', monospace;
+    color: rgba(157, 157, 157, .5);
+    font-size: 1.3rem;
+    padding-left: 1rem;
+    text-transform: capitalize;
+}
+
+.send-btn-box {
+    padding: 0;
+    height: 100%;
+    border-radius: inherit;
+    background-color: #fff;
+}
+
+.send-btn {
+    padding-left: .7rem;
+    height: 100%;
 }

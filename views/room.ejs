@@ -4,9 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-        integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
     <title>In the Room!!</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <script>
         const roomid = "<%= roomid %>"
@@ -16,13 +22,123 @@
 </head>
 
 <body>
-    <h1>In the room.... ooohoooooo</h1>
-    <h4>Share Room Id : <%=roomid %></h4>
+
+    <nav class="navbar-roomPage">
+        <h1 class="logo">SyncM</h1>
+        <a class="btn-exit" href="#">leave room</a>
+    </nav>
+
+    <div class="roomid-box">
+        <span class="roomid-text">Room Id :</span>
+        <span class="roomid"><%= roomid %></span>
+    </div>
+
+    <div class="container data-box">
+        <div class="row justify-content-around data-box-row">
+            <div class="col-8 music-section">
+                <div class="container-fluid music-grid-container">
+                    <div class="row music-grid justify-content-center">
+                        <div class="col-3 music-song">
+                            <img src="img/born-to-shine.jpg" alt="song-image" class="song-img">
+                            <span class="song-name">Born To Shine - Diljit Dosanjh</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon">
+                        </div>
+                        <div class="col-3 music-song">
+                            <img src="img/big-liar.jpg" alt="song-image" class="song-img">
+                            <span class="song-name">Bad Liar - Imagine Dragons</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon">
+                        </div>
+                        <div class="col-3 music-song">
+                            <img src="img/safar.jpg" alt="song-image" class="song-img">
+                            <span class="song-name">Safar - Bhuvan Bam</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon">
+                        </div>
+                    </div>
+                    <div class="row music-grid justify-content-center">
+                        <div class="col-3 music-song">
+                            <img src="img/ranveer.jpg" alt="song-image" class="song-img">
+                            <span class="song-name">Utth Jaa Rey - Jasleen Royal</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon">
+
+                        </div>
+                        <div class="col-3 music-song">
+                            <img src="img/jassManak.jpeg" alt="song-image" class="song-img">
+                            <span class="song-name">No Competition - Jass Manak | Divine</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon">
+
+                        </div>
+                        <div class="col-3 music-song">
+                            <img src="img/maroon5.jpg" alt="song-image" class="song-img">
+                            <span class="song-name">Nobody's Love - Maroon 5</span>
+                            <div class="play-btn-layover"></div>
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 chatbot">
+                <div class="row headings">
+                    <div class="col-6 heading-chat">chat</div>
+                    <div class="col-6 headig-participants">people</div>
+                </div>
+
+                <div class="people d-none">
+                    <div class="people-list">
+                        <ol>
+                            <li>james clear</li>
+                            <li>ali abdaal</li>
+                            <li>samuel murph</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="msg-section d-flex flex-column-reverse">
+                    <div class="msg-area">
+                        <span class="sender">Govind Tomar</span>
+                        <span class="time">4:34pm</span>
+                        <p class="msg">Hey there, I'm using SyncM. It's going pretty well. we are here to appreciate you.</p>
+                    </div>
+
+                    <div class="msg-area">
+                        <span class="sender">Govind Tomar</span>
+                        <span class="time">4:30pm</span>
+                        <p class="msg">Hey there, I'm using SyncM. It's going pretty well. we are here to appreciate you.</p>
+                    </div>
+
+                    <div class="msg-area">
+                        <span class="sender">Govind Tomar</span>
+                        <span class="time">4:28pm</span>
+                        <p class="msg">Hey there, I'm using SyncM. It's going pretty well. we are here to appreciate you.</p>
+                    </div>
+
+                    <div class="msg-area">
+                        <span class="sender">Govind Tomar</span>
+                        <span class="time">4:25pm</span>
+                        <p class="msg">Hey there, I'm using SyncM. It's going pretty well. we are here to appreciate you.</p>
+                    </div>
+                </div>
+                <div class="write-msg row">
+                    <div class="input-box col-9">
+                        <input type="text" class="input-text" placeholder="Type your Message">
+                    </div>
+                    <div class="send-btn-box col-3">
+                        <img src="icons/send.png" alt="send-btn" class="send-btn">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <audio src="ringtone.mp3" id="btn-1-audio">jack sparrow</audio>
     <button onclick="handleplaysound(id)" type="button" id="btn-1">play sound</button>
     <button onclick="handlepausesound(id)" type="button" id="btn-1-">pause sound</button>
-<br><hr>
+    <br>
+    <hr>
     <audio src="iphone.mp3" id="btn-2-audio">iphone</audio>
     <button onclick="handleplaysound(id)" type="button" id="btn-2">play sound</button>
     <button onclick="handlepausesound(id)" type="button" id="btn-2-">pause sound</button>
@@ -38,16 +154,10 @@
     </main>
 
     <div class="chat-form-container">
-      <form id="chat-form">
-        <input
-          id="msg"
-          type="text"
-          placeholder="Enter Message"
-          required
-          autocomplete="off"
-        />
-        <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
-      </form>
+        <form id="chat-form">
+            <input id="msg" type="text" placeholder="Enter Message" required autocomplete="off" />
+            <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+        </form>
     </div>
 </body>
 
