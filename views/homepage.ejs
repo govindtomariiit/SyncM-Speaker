@@ -32,27 +32,14 @@
             <div class="col-4 join-room">
                 <h1 class="join-room-heading">join room</h1>
                 <form action="/joinRoom" method="POST">
-                    <input type="text" id="roomid" class="input-roomid" name="roomid" placeholder="enter room id" required>
+                    <input type="text" id="roomid" class="input-roomid" name="roomid" placeholder="enter room id" required autocomplete="off">
                     <br>
                     <button class="join-btn" type="submit">join room</button>
                 </form>
             </div>
         </div>
     </main>
-
-    <h1 style="margin-top: 20rem;">It is the homepage.</h1>
-    <h3>For creating Room</h3>
-    <form action="/createRoom" method="POST">
-        <h3>press button to create room</h3>
-        <button type="submit">creatRoom</button>
-    </form>
-
-    <h3>For joining Room</h3>
-    <form action="/joinRoom" method="POST">
-        <label for="roomid">RoomId</label>
-        <input type="text" name="roomid" id="roomid" placeholder="Enter roomid..." required />
-        <button type="submit" class="btn">joinRoom</button>
-    </form>
+    
 </body>
 
 </html>

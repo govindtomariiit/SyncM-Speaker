@@ -9,7 +9,8 @@ const {
     userJoin,
     getCurrentUser,
     userLeave,
-    getRoomUsers
+    getRoomUsers,
+    getAllUsers
 } = require('./utils/users')
 const botName = 'SyncM Bot'
 
@@ -23,14 +24,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    console.log('IN THE HOME')
     res.render('homepage.ejs')
-    console.log('home')
 })
 
 app.get('/:roomid', (req, res) => {
-    console.log(req.params.roomid)
-    console.log('IN THE ROOM NOW.')
     res.render('room', { roomid: req.params.roomid })
 })
 
@@ -41,27 +38,34 @@ app.post('/createRoom', (req, res) => {
 
 app.post('/joinRoom', (req, res) => {
     const room = req.body.roomid
+    const users= getAllUsers();
+    // console.log(users);
+    // for(var i=0;i<users.length;i++){
+    //   if(users[i].room===room){
+    //     res.redirect(`/${room}`)
+    //     break;
+    //   }
+    // }
+    // res.redirect('/');
     res.redirect(`/${room}`)
 })
 
 io.on('connection', socket => {
-  console.log("connected with io")
   socket.on('new-user', (room, name) => {
     const user = userJoin(socket.id, name, room);
-    console.log(user);
 
     //joining user to room
     socket.join(room);
 
     // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Welcome to SyncM!'));
+    socket.emit('message', formatMessage(botName, `Hey ${user.username}! Welcome to SyncM!`));
 
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
       .emit(
         'message',
-        formatMessage(botName, `${user.username} has joined the chat`)
+        formatMessage(botName, `${user.username} has joined the Room`)
       );
 
     // Send users and room info
@@ -85,7 +89,7 @@ io.on('connection', socket => {
     if (user) {
       io.to(user.room).emit(
         'message',
-        formatMessage(botName, `${user.username} has left the chat`)
+        formatMessage(botName, `${user.username} has left the Room`)
       );
 
       // Send users and room info
@@ -104,7 +108,7 @@ io.on('connection', socket => {
     if (user) {
       io.to(user.room).emit(
         'message',
-        formatMessage(botName, `${user.username} has left the chat`)
+        formatMessage(botName, `${user.username} has left the Room`)
       );
 
       // Send users and room info
@@ -119,7 +123,6 @@ io.on('connection', socket => {
   });
 
   socket.on('clientEvent', function (data) {
-    console.log(data);
     const user = getCurrentUser(socket.id);
     io.sockets
       .to(user.room)
@@ -131,7 +134,6 @@ io.on('connection', socket => {
   });
 
   socket.on('clientEventPause', function (data) {
-    console.log(data);
     const user = getCurrentUser(socket.id);
     io.sockets
       .to(user.room)
@@ -143,4 +145,6 @@ io.on('connection', socket => {
   });
 })
 
-server.listen(3000)
+server.listen(3000,()=>{
+  console.log("SERVER HAS STARTED")
+});
