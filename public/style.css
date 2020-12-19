@@ -157,7 +157,6 @@
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.16);
     border-radius: 50px;
     position: relative;
-    /* padding: 0; */
 }
 
 .headings {
@@ -173,16 +172,30 @@
     margin-bottom: .5rem;
 }
 
-.heading-chat {}
+.heading-chat {
+    cursor: pointer;
+}
 
-.heading-participants {}
+.heading-people {
+    cursor: pointer;
+}
+
+.current-tab {
+    color: #4CD137;
+    font-size: 1.7rem;
+    border-bottom: 5px solid #4CD137;
+    height: 100%;
+    background-color: transparent;
+    transform: translateY(.25rem);
+    padding-top: .5rem;
+}
 
 .msg-section {
     width: 100%;
     height: calc(100% - 8.4rem);
     overflow: hidden;
     overflow-y: scroll;
-    padding-bottom: .5rem;
+    padding-bottom: .6rem;
 }
 
 .msg-area {
@@ -227,48 +240,57 @@
 .write-msg {
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
     height: 4.2rem;
     border-radius: 0 0 50px 50px;
     border-top: 2px solid #d6d6d6;
-    margin-top: 1rem;
-}
-
-.input-box {
-    padding: 0;
-    height: 100%;
-    border-radius: 0 0 0 50px;
-}
-
-.input-text {
-    border: none;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    outline: none;
-    padding-left: .8rem;
-    padding-bottom: 1rem;
-    font-size: 1.5rem;
-    font-family: 'Nunito', sans-serif;
-    color: #222;
-}
-
-.input-text::placeholder {
-    font-family: 'Courier Prime', monospace;
-    color: rgba(157, 157, 157, .5);
-    font-size: 1.3rem;
-    padding-left: 1rem;
-    text-transform: capitalize;
-}
-
-.send-btn-box {
-    padding: 0;
-    height: 100%;
-    border-radius: inherit;
     background-color: #fff;
 }
 
-.send-btn {
-    padding-left: .7rem;
+.send-msg-form {
     height: 100%;
+}
+
+.input-text {
+    width: 80%;
+    height: 100%;
+    border-radius: 0 0 0 50px;
+    padding-left: 2rem;
+    font-size: 1.3rem;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    padding-bottom: .6rem;
+    font-family: 'Nunito', sans-serif;
+    color: #2e2e2e;
+}
+
+.input-text::placeholder {
+    color: #9d9d9d8c;
+    font-family: futura-medium;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+.send-btn {
+    width: 18%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0 0 50px 0;
+    outline: none;
+}
+
+.send-icon {
+    width: 70%;
+    height: 100%;
+    color: #1d1d1d;
+}
+
+.send-icon div {
+    width: 100%;
+}
+
+.send-icon div svg {
+    width: 100%;
 }
