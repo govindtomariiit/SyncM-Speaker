@@ -11,9 +11,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap" rel="stylesheet">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
     <link rel="stylesheet" href="style.css">
     <script>
         const roomid = "<%= roomid %>"
@@ -34,6 +38,10 @@
         <span class="roomid">
             <%= roomid %>
         </span>
+        <!-- Trigger -->
+        <button class="btn" data-clipboard-text=<%=roomid%>>
+            Copy to clipboard
+        </button>
     </div>
 
     <div class="container data-box">
@@ -46,24 +54,30 @@
                             <img src="img/born-to-shine.jpg" alt="song-image" class="song-img">
                             <span class="song-name">Born To Shine - Diljit Dosanjh</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-1">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-1-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-1">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-1-">
                         </div>
                         <div class="col-3 music-song">
                             <audio src="ringtone.mp3" id="btn-2-audio"></audio>
                             <img src="img/big-liar.jpg" alt="song-image" class="song-img">
                             <span class="song-name">Bad Liar - Imagine Dragons</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-2">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-2-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-2">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-2-">
                         </div>
                         <div class="col-3 music-song">
                             <audio src="ringtone.mp3" id="btn-3-audio"></audio>
                             <img src="img/safar.jpg" alt="song-image" class="song-img">
                             <span class="song-name">Safar - Bhuvan Bam</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-3">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-3-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-3">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-3-">
                         </div>
                     </div>
                     <div class="row music-grid justify-content-center">
@@ -72,8 +86,10 @@
                             <img src="img/ranveer.jpg" alt="song-image" class="song-img">
                             <span class="song-name">Utth Jaa Rey - Jasleen Royal</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-4">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-4-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-4">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-4-">
 
                         </div>
                         <div class="col-3 music-song">
@@ -81,8 +97,10 @@
                             <img src="img/jassManak.jpeg" alt="song-image" class="song-img">
                             <span class="song-name">No Competition - Jass Manak | Divine</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-5">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-5-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-5">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-5-">
 
                         </div>
                         <div class="col-3 music-song">
@@ -90,8 +108,10 @@
                             <img src="img/maroon5.jpg" alt="song-image" class="song-img">
                             <span class="song-name">Nobody's Love - Maroon 5</span>
                             <div class="play-btn-layover"></div>
-                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon" onclick="handleplaysound(id)" id="btn-6">
-                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none" onclick="handlepausesound(id)" id="btn-6-">
+                            <img src="icons/play.png" alt="play-btn-icon" class="play-btn-icon"
+                                onclick="handleplaysound(id)" id="btn-6">
+                            <img src="icons/pause.png" alt="play-btn-icon" class="play-btn-icon d-none"
+                                onclick="handlepausesound(id)" id="btn-6-">
 
                         </div>
                     </div>
@@ -113,8 +133,11 @@
                 </div>
                 <div class="write-msg">
                     <form id="chat-form" class="send-msg-form">
-                        <input type="text" class="input-text" placeholder="Type your Message" id="msg" required autocomplete="off">
-                        <button class="btn send-btn"><ion-icon name="send-sharp" class="send-icon"></ion-icon></button>
+                        <input type="text" class="input-text" placeholder="Type your Message" id="msg" required
+                            autocomplete="off">
+                        <button class="btn send-btn">
+                            <ion-icon name="send-sharp" class="send-icon"></ion-icon>
+                        </button>
                     </form>
                 </div>
             </div>
