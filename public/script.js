@@ -4,10 +4,22 @@ const chatForm = document.getElementById('chat-form')
 const chatMessages = document.querySelector('#chat-messages')
 const userList = document.getElementById('users')
 var audio_element = document.querySelectorAll('audio')
-console.log(audio_element)
+new ClipboardJS('.btn');
 const socket = io('http://localhost:3000')
-const name = prompt('What is your name?')
+var name = prompt('What is your name?')
+while (name === "") {
+    var name = prompt('Please Enter Valid Name!!!.What is your name?')
+}
 socket.emit('new-user', roomid, name)
+
+function myFunction() {
+    var copyText = document.getElementById("myInput");
+    copyText.enabled;
+    copyText.select();
+    copyText.setSelectionRange(0, 99999)
+    document.execCommand("copy");
+    alert("Copied the text: " + copyText.value);
+  }
 
 function handleplaysound(id) {
     const play_icon = document.getElementById(id)
@@ -38,9 +50,9 @@ function handlepausesound(id) {
     })
 }
 
-function leaveRoom(){
+function leaveRoom() {
     console.log('click leave')
-    socket.emit('disconnect-btn',{
+    socket.emit('disconnect-btn', {
         msg: 'user leave the room by clicking on leave Room button'
     })
 }
@@ -97,9 +109,15 @@ chatForm.addEventListener('submit', e => {
 function outputMessage(message) {
     const div = document.createElement('div')
     div.classList.add('msg-area')
-    div.innerHTML = `<span class="sender">${message.username}</span>
+    if (message.username === 'SyncM Bot') {
+        div.innerHTML = `<span class="sender">${message.username}</span>
     <span class="time">${message.time}</span>
-    <p class="msg">${message.text}</p>`
+    <p class="msg"><i><b>${message.text}</i></p>`
+    }else{
+        div.innerHTML = `<span class="sender">${message.username}</span>
+        <span class="time">${message.time}</span>
+        <p class="msg">${message.text}</p>`
+    }
     chatMessages.prepend(div)
 }
 
