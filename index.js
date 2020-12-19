@@ -45,84 +45,102 @@ app.post('/joinRoom', (req, res) => {
 })
 
 io.on('connection', socket => {
-    console.log('connected with io')
-    socket.on('new-user', (room, name) => {
-        const user = userJoin(socket.id, name, room)
-        console.log(user)
+  console.log("connected with io")
+  socket.on('new-user', (room, name) => {
+    const user = userJoin(socket.id, name, room);
+    console.log(user);
 
-        //joining user to room
-        socket.join(room)
+    //joining user to room
+    socket.join(room);
 
-        // Welcome current user
-        socket.emit('message', formatMessage(botName, 'Welcome to SyncM!'))
+    // Welcome current user
+    socket.emit('message', formatMessage(botName, 'Welcome to SyncM!'));
 
-        // Broadcast when a user connects
-        socket.broadcast
-            .to(user.room)
-            .emit(
-                'message',
-                formatMessage(botName, `${user.username} has joined the chat`)
-            )
+    // Broadcast when a user connects
+    socket.broadcast
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has joined the chat`)
+      );
 
-        // Send users and room info
-        io.to(user.room).emit('roomUsers', {
-            room: user.room,
-            users: getRoomUsers(user.room)
-        })
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
+  });
+  
+  // Listen for chatMessage
+  socket.on('chatMessage', msg => {
+    const user = getCurrentUser(socket.id);
+
+    io.to(user.room).emit('message', formatMessage(user.username, msg));
+  });
+
+  // Runs when client disconnects
+  socket.on('disconnect', () => {
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        'message',
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    }
+  });
+
+  // Runs when client disconnects
+  socket.on('disconnect-btn', () => {
+    
+    const user = userLeave(socket.id);
+
+    if (user) {
+      io.to(user.room).emit(
+        'message',
+        formatMessage(botName, `${user.username} has left the chat`)
+      );
+
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    }
+    app.get(`/${user.room}/`,(req,res)=>{
+      res.render('homepage.ejs');
     })
+  });
 
-    // Listen for chatMessage
-    socket.on('chatMessage', msg => {
-        const user = getCurrentUser(socket.id)
+  socket.on('clientEvent', function (data) {
+    console.log(data);
+    const user = getCurrentUser(socket.id);
+    io.sockets
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has played the song`)
+      );
+    io.sockets.to(user.room).emit('playonall', { msg: "playing on all client", id: data.id });
+  });
 
-        io.to(user.room).emit('message', formatMessage(user.username, msg))
-    })
-
-    // Runs when client disconnects
-    socket.on('disconnect', () => {
-        const user = userLeave(socket.id)
-
-        if (user) {
-            io.to(user.room).emit(
-                'message',
-                formatMessage(botName, `${user.username} has left the chat`)
-            )
-
-            // Send users and room info
-            io.to(user.room).emit('roomUsers', {
-                room: user.room,
-                users: getRoomUsers(user.room)
-            })
-        }
-    })
-
-    socket.on('clientEvent', function(data) {
-        console.log(data)
-        const user = getCurrentUser(socket.id)
-        io.sockets
-            .to(user.room)
-            .emit(
-                'message',
-                formatMessage(botName, `${user.username} has played the song`)
-            )
-        io.sockets
-            .to(user.room)
-            .emit('playonall', { msg: 'playing on all client', id: data.id })
-    })
-
-    socket.on('clientEventPause', function(data) {
-        console.log(data)
-        const user = getCurrentUser(socket.id)
-        io.sockets
-            .to(user.room)
-            .emit(
-                'message',
-                formatMessage(botName, `${user.username} has paused the song`)
-            )
-        io.sockets
-            .to(user.room)
-            .emit('pauseonall', { msg: 'pausing on all client', id: data.id })
-    })
+  socket.on('clientEventPause', function (data) {
+    console.log(data);
+    const user = getCurrentUser(socket.id);
+    io.sockets
+      .to(user.room)
+      .emit(
+        'message',
+        formatMessage(botName, `${user.username} has paused the song`)
+      );
+    io.sockets.to(user.room).emit('pauseonall', { msg: "pausing on all client", id: data.id });
+  });
 })
 
 server.listen(3000)
