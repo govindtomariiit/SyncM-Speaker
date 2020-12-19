@@ -38,6 +38,13 @@ function handlepausesound(id) {
     })
 }
 
+function leaveRoom(){
+    console.log('click leave')
+    socket.emit('disconnect-btn',{
+        msg: 'user leave the room by clicking on leave Room button'
+    })
+}
+
 socket.on('playonall', data => {
     const id = data.id
     const play_icon=document.getElementById(id);
