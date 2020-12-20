@@ -21,6 +21,16 @@ function myFunction() {
     alert("Copied the text: " + copyText.value);
   }
 
+//function for checking if music has ended or not and change the sign of play btn
+  function musicEnded(id) {
+    var music = document.getElementById(id);
+    var new_id=id.replace('-audio','');
+    const play_icon = document.getElementById(new_id)
+    const pause_icon = document.getElementById(new_id + '-')
+    play_icon.classList.remove('d-none')
+    pause_icon.classList.add('d-none')
+  }
+
 function handleplaysound(id) {
     const play_icon = document.getElementById(id)
     const pause_icon = document.getElementById(id + '-')
@@ -64,6 +74,7 @@ socket.on('playonall', data => {
     play_icon.classList.add('d-none')
     pause_icon.classList.remove('d-none')
     var x = document.getElementById(id + '-audio')
+    x.currentTime=0;
     x.play()
 })
 socket.on('pauseonall', data => {
@@ -73,6 +84,7 @@ socket.on('pauseonall', data => {
     play_icon.classList.remove('d-none')
     pause_icon.classList.add('d-none')
     var x = document.getElementById(id + 'audio')
+    x.currentTime=0;
     x.pause()
 })
 socket.on('message', message => {
