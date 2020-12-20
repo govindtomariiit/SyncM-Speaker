@@ -5,41 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="homepage.css">
     <title>SyncM - Home Page</title>
 </head>
 
 <body>
-    <nav class="navbar-roomPage">
-        <h1 class="logo">SyncM</h1>
-    </nav>
-
-    <h1 class="about">
-        A Music Syncing Web App to have the experience of boosted audio.
-    </h1>
-
-    <main class="room-section container">
-        <div class="row room-row justify-content-center">
-            <div class="col-4 create-room">
-                <h1 class="create-room-heading">create room</h1>
-                <form action="/createRoom" method="POST">
-                    <button class="create-btn" type="submit">generate room id</button>
-                </form>
-            </div>
-            <div class="col-4 join-room">
-                <h1 class="join-room-heading">join room</h1>
-                <form action="/joinRoom" method="POST">
-                    <input type="text" id="roomid" class="input-roomid" name="roomid" placeholder="enter room id" required autocomplete="off">
-                    <br>
-                    <button class="join-btn" type="submit">join room</button>
-                </form>
-            </div>
+    <% if (typeof InvalidRoomId !='undefined' && InvalidRoomId) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%- InvalidRoomId %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
         </div>
-    </main>
-    
+        <% } %>
+            <nav class="navbar-roomPage">
+                <h1 class="logo">SyncM</h1>
+            </nav>
+
+            <h1 class="about">
+                A Music Syncing Web App to have the experience of boosted audio.
+            </h1>
+
+            <main class="room-section container">
+                <div class="row room-row justify-content-center">
+                    <div class="col-4 create-room">
+                        <h1 class="create-room-heading">create room</h1>
+                        <form action="/createRoom" method="POST">
+                            <button class="create-btn" type="submit">generate room id</button>
+                        </form>
+                    </div>
+                    <div class="col-4 join-room">
+                        <h1 class="join-room-heading">join room</h1>
+                        <form action="/joinRoom" method="POST">
+                            <input type="text" id="roomid" class="input-roomid" name="roomid"
+                                placeholder="enter room id" required autocomplete="off">
+                            <br>
+                            <button class="join-btn" type="submit">join room</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
 </body>
 
 </html>

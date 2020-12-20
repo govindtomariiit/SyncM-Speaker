@@ -4,13 +4,24 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidv4 } = require('uuid')
 var bodyParser = require('body-parser')
+
+//stuff related to flash msg
+var session = require('express-session');
+var flash = require('req-flash');
+// app.use(cookieParser());
+app.use(session({
+  secret: 'djhxcvxfgshajfgjhgsjhfgsakjeauytsdfy',
+  resave: false,
+  saveUninitialized: true
+}));
+app.use(flash());
 const formatMessage = require('./utils/messages')
 const {
-    userJoin,
-    getCurrentUser,
-    userLeave,
-    getRoomUsers,
-    getAllUsers
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers,
+  getAllUsers
 } = require('./utils/users')
 const botName = 'SyncM Bot'
 
@@ -20,34 +31,39 @@ app.use(express.urlencoded({ extended: true }))
 
 // for parsing application/json
 app.use(bodyParser.json())
-    // for parsing application/xwww-
+// for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    res.render('homepage.ejs')
+  res.render('homepage.ejs',{ InvalidRoomId: req.flash('InvalidRoomId')});
 })
 
 app.get('/:roomid', (req, res) => {
-    res.render('room', { roomid: req.params.roomid })
+  res.render('room', { roomid: req.params.roomid })
 })
 
 app.post('/createRoom', (req, res) => {
-    const room = uuidv4()
-    res.redirect(`/${room}`)
+  const room = uuidv4()
+  res.redirect(`/${room}`)
 })
 
 app.post('/joinRoom', (req, res) => {
-    const room = req.body.roomid
-    const users= getAllUsers();
-    // console.log(users);
-    // for(var i=0;i<users.length;i++){
-    //   if(users[i].room===room){
-    //     res.redirect(`/${room}`)
-    //     break;
-    //   }
-    // }
-    // res.redirect('/');
-    res.redirect(`/${room}`)
+  const room = req.body.roomid
+  const users = getAllUsers();
+  var x = 0;
+  // console.log(users);
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].room === room) {
+      res.redirect(`/${room}`)
+      x = 1;
+      // break;
+    }
+  }
+  if (x == 0) {
+    req.flash('InvalidRoomId', 'YOUR ROOM ID IS INVALID');
+    res.redirect('/');
+  }
+  // res.redirect(`/${room}`)
 })
 
 io.on('connection', socket => {
@@ -74,7 +90,7 @@ io.on('connection', socket => {
       users: getRoomUsers(user.room)
     });
   });
-  
+
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
@@ -102,7 +118,7 @@ io.on('connection', socket => {
 
   // Runs when client disconnects
   socket.on('disconnect-btn', () => {
-    
+
     const user = userLeave(socket.id);
 
     if (user) {
@@ -117,7 +133,7 @@ io.on('connection', socket => {
         users: getRoomUsers(user.room)
       });
     }
-    app.get(`/${user.room}/`,(req,res)=>{
+    app.get(`/${user.room}/`, (req, res) => {
       res.render('homepage.ejs');
     })
   });
@@ -145,6 +161,6 @@ io.on('connection', socket => {
   });
 })
 
-server.listen(3000,()=>{
+server.listen(3000, () => {
   console.log("SERVER HAS STARTED")
 });
