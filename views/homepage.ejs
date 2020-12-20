@@ -23,13 +23,13 @@
 
     <main class="room-section container">
         <div class="row room-row justify-content-center">
-            <div class="col-4 create-room">
+            <div class="col-12 col-sm-5 col-md-4 create-room">
                 <h1 class="create-room-heading">create room</h1>
                 <form action="/createRoom" method="POST">
                     <button class="create-btn" type="submit">generate room id</button>
                 </form>
             </div>
-            <div class="col-4 join-room">
+            <div class="col-12 col-sm-5 col-md-4 join-room">
                 <h1 class="join-room-heading">join room</h1>
                 <form action="/joinRoom" method="POST">
                     <input type="text" id="roomid" class="input-roomid" name="roomid" placeholder="enter room id" required autocomplete="off">
@@ -39,7 +39,7 @@
             </div>
         </div>
     </main>
-    
+
 </body>
 
 </html>
