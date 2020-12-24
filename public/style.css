@@ -17,7 +17,6 @@
 .navbar-roomPage {
     height: 6rem;
     padding: 1rem 3rem;
-    background-color: #fff;
     /* box shadow */
     -webkit-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
@@ -74,6 +73,9 @@
 .music-grid-container {
     margin-top: 1.8rem;
     margin-bottom: 1.8rem;
+    height: 56vh;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .music-grid {

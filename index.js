@@ -4,6 +4,19 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidv4 } = require('uuid')
 var bodyParser = require('body-parser')
+
+//stuff related to flash msg
+var session = require('express-session')
+var flash = require('req-flash')
+    // app.use(cookieParser());
+app.use(
+    session({
+        secret: 'djhxcvxfgshajfgjhgsjhfgsakjeauytsdfy',
+        resave: false,
+        saveUninitialized: true
+    })
+)
+app.use(flash())
 const formatMessage = require('./utils/messages')
 const {
     userJoin,
@@ -24,7 +37,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    res.render('homepage.ejs')
+    res.render('homepage.ejs', { InvalidRoomId: req.flash('InvalidRoomId') })
 })
 
 app.get('/:roomid', (req, res) => {
@@ -38,113 +51,124 @@ app.post('/createRoom', (req, res) => {
 
 app.post('/joinRoom', (req, res) => {
     const room = req.body.roomid
-    const users= getAllUsers();
-    // console.log(users);
-    // for(var i=0;i<users.length;i++){
-    //   if(users[i].room===room){
-    //     res.redirect(`/${room}`)
-    //     break;
-    //   }
-    // }
-    // res.redirect('/');
-    res.redirect(`/${room}`)
+    const users = getAllUsers()
+    var x = 0
+        // console.log(users);
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].room === room) {
+            res.redirect(`/${room}`)
+            x = 1
+                // break;
+        }
+    }
+    if (x == 0) {
+        req.flash('InvalidRoomId', 'YOUR ROOM ID IS INVALID')
+        res.redirect('/')
+    }
+    // res.redirect(`/${room}`)
 })
 
 io.on('connection', socket => {
-  socket.on('new-user', (room, name) => {
-    const user = userJoin(socket.id, name, room);
+    socket.on('new-user', (room, name) => {
+        const user = userJoin(socket.id, name, room)
 
-    //joining user to room
-    socket.join(room);
+        //joining user to room
+        socket.join(room)
 
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, `Hey ${user.username}! Welcome to SyncM!`));
+        // Welcome current user
+        socket.emit(
+            'message',
+            formatMessage(botName, `Hey ${user.username}! Welcome to SyncM!`)
+        )
 
-    // Broadcast when a user connects
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} has joined the Room`)
-      );
+        // Broadcast when a user connects
+        socket.broadcast
+            .to(user.room)
+            .emit(
+                'message',
+                formatMessage(botName, `${user.username} has joined the Room`)
+            )
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    });
-  });
-  
-  // Listen for chatMessage
-  socket.on('chatMessage', msg => {
-    const user = getCurrentUser(socket.id);
-
-    io.to(user.room).emit('message', formatMessage(user.username, msg));
-  });
-
-  // Runs when client disconnects
-  socket.on('disconnect', () => {
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} has left the Room`)
-      );
-
-      // Send users and room info
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room)
-      });
-    }
-  });
-
-  // Runs when client disconnects
-  socket.on('disconnect-btn', () => {
-    
-    const user = userLeave(socket.id);
-
-    if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} has left the Room`)
-      );
-
-      // Send users and room info
-      io.to(user.room).emit('roomUsers', {
-        room: user.room,
-        users: getRoomUsers(user.room)
-      });
-    }
-    app.get(`/${user.room}/`,(req,res)=>{
-      res.render('homepage.ejs');
+        // Send users and room info
+        io.to(user.room).emit('roomUsers', {
+            room: user.room,
+            users: getRoomUsers(user.room)
+        })
     })
-  });
 
-  socket.on('clientEvent', function (data) {
-    const user = getCurrentUser(socket.id);
-    io.sockets
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} has played the song`)
-      );
-    io.sockets.to(user.room).emit('playonall', { msg: "playing on all client", id: data.id });
-  });
+    // Listen for chatMessage
+    socket.on('chatMessage', msg => {
+        const user = getCurrentUser(socket.id)
 
-  socket.on('clientEventPause', function (data) {
-    const user = getCurrentUser(socket.id);
-    io.sockets
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} has paused the song`)
-      );
-    io.sockets.to(user.room).emit('pauseonall', { msg: "pausing on all client", id: data.id });
-  });
+        io.to(user.room).emit('message', formatMessage(user.username, msg))
+    })
+
+    // Runs when client disconnects
+    socket.on('disconnect', () => {
+        const user = userLeave(socket.id)
+
+        if (user) {
+            io.to(user.room).emit(
+                'message',
+                formatMessage(botName, `${user.username} has left the Room`)
+            )
+
+            // Send users and room info
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getRoomUsers(user.room)
+            })
+        }
+    })
+
+    // Runs when client disconnects
+    socket.on('disconnect-btn', () => {
+        const user = userLeave(socket.id)
+
+        if (user) {
+            io.to(user.room).emit(
+                'message',
+                formatMessage(botName, `${user.username} has left the Room`)
+            )
+
+            // Send users and room info
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getRoomUsers(user.room)
+            })
+        }
+        app.get(`/${user.room}/`, (req, res) => {
+            res.render('homepage.ejs')
+        })
+    })
+
+    socket.on('clientEvent', function(data) {
+        const user = getCurrentUser(socket.id)
+        io.sockets
+            .to(user.room)
+            .emit(
+                'message',
+                formatMessage(botName, `${user.username} has played the song`)
+            )
+        io.sockets
+            .to(user.room)
+            .emit('playonall', { msg: 'playing on all client', id: data.id })
+    })
+
+    socket.on('clientEventPause', function(data) {
+        const user = getCurrentUser(socket.id)
+        io.sockets
+            .to(user.room)
+            .emit(
+                'message',
+                formatMessage(botName, `${user.username} has paused the song`)
+            )
+        io.sockets
+            .to(user.room)
+            .emit('pauseonall', { msg: 'pausing on all client', id: data.id })
+    })
 })
 
-server.listen(3000,()=>{
-  console.log("SERVER HAS STARTED")
-});
+server.listen(3000, () => {
+    console.log('SERVER HAS STARTED')
+})

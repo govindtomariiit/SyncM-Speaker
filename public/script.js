@@ -4,22 +4,32 @@ const chatForm = document.getElementById('chat-form')
 const chatMessages = document.querySelector('#chat-messages')
 const userList = document.getElementById('users')
 var audio_element = document.querySelectorAll('audio')
-new ClipboardJS('.btn');
+new ClipboardJS('.btn')
 const socket = io('http://localhost:3000')
 var name = prompt('What is your name?')
-while (name === "") {
+while (name === '') {
     var name = prompt('Please Enter Valid Name!!!.What is your name?')
 }
 socket.emit('new-user', roomid, name)
 
 function myFunction() {
-    var copyText = document.getElementById("myInput");
-    copyText.enabled;
-    copyText.select();
+    var copyText = document.getElementById('myInput')
+    copyText.enabled
+    copyText.select()
     copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Copied the text: " + copyText.value);
-  }
+    document.execCommand('copy')
+    alert('Copied the text: ' + copyText.value)
+}
+
+//function for checking if music has ended or not and change the sign of play btn
+function musicEnded(id) {
+    var music = document.getElementById(id)
+    var new_id = id.replace('-audio', '')
+    const play_icon = document.getElementById(new_id)
+    const pause_icon = document.getElementById(new_id + '-')
+    play_icon.classList.remove('d-none')
+    pause_icon.classList.add('d-none')
+}
 
 function handleplaysound(id) {
     const play_icon = document.getElementById(id)
@@ -64,6 +74,7 @@ socket.on('playonall', data => {
     play_icon.classList.add('d-none')
     pause_icon.classList.remove('d-none')
     var x = document.getElementById(id + '-audio')
+    x.currentTime = 0
     x.play()
 })
 socket.on('pauseonall', data => {
@@ -73,6 +84,7 @@ socket.on('pauseonall', data => {
     play_icon.classList.remove('d-none')
     pause_icon.classList.add('d-none')
     var x = document.getElementById(id + 'audio')
+    x.currentTime = 0
     x.pause()
 })
 socket.on('message', message => {
@@ -113,7 +125,7 @@ function outputMessage(message) {
         div.innerHTML = `<span class="sender">${message.username}</span>
     <span class="time">${message.time}</span>
     <p class="msg"><i><b>${message.text}</i></p>`
-    }else{
+    } else {
         div.innerHTML = `<span class="sender">${message.username}</span>
         <span class="time">${message.time}</span>
         <p class="msg">${message.text}</p>`
