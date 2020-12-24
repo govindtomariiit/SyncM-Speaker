@@ -5,7 +5,7 @@ const chatMessages = document.querySelector('#chat-messages')
 const userList = document.getElementById('users')
 var audio_element = document.querySelectorAll('audio')
 new ClipboardJS('.btn')
-const socket = io('http://localhost:3000')
+const socket = io('https://sync-m.herokuapp.com/')
 var name = prompt('What is your name?')
 while (name === '') {
     var name = prompt('Please Enter Valid Name!!!.What is your name?')
