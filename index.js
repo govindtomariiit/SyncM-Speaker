@@ -4,6 +4,7 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidv4 } = require('uuid')
 var bodyParser = require('body-parser')
+const PORT = process.env.PORT || 3000
 
 //stuff related to flash msg
 var session = require('express-session')
@@ -169,6 +170,4 @@ io.on('connection', socket => {
     })
 })
 
-server.listen(3000, () => {
-    console.log('SERVER HAS STARTED')
-})
+server.listen(PORT, () => console.log(`Listening on ${PORT}`))
