@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const server = require('http').Server(app)
-const io = require('socket.io')(server)
+const server = require('http').createServer(app)
+const io = require('socket.io')(server);
 const { v4: uuidv4 } = require('uuid')
 var bodyParser = require('body-parser')
 const PORT = process.env.PORT || 3000
