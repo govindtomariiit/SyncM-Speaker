@@ -1,11 +1,11 @@
-console.log('SCRIPT WORKING')
+console.log('SCRIPT WORKING in js')
 
 const chatForm = document.getElementById('chat-form')
 const chatMessages = document.querySelector('#chat-messages')
 const userList = document.getElementById('users')
 var audio_element = document.querySelectorAll('audio')
 new ClipboardJS('.btn')
-const socket = io('https://sync-m.herokuapp.com/')
+const socket = io();
 var name = prompt('What is your name?')
 while (name === '') {
     var name = prompt('Please Enter Valid Name!!!.What is your name?')
